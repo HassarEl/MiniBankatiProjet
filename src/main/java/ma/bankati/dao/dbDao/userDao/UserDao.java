@@ -44,7 +44,10 @@ public class UserDao implements IUserDao {
 
     @Override
     public User findById(Long identity) {
-        return null;
+        return findAll().stream()
+                .filter(u -> u.getId()
+                        .equals(identity))
+                        .findFirst().orElse(null);
     }
 
     @Override
