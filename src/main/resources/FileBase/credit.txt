@@ -1,0 +1,3 @@
+ID-MtCredit-NbrMois-Motif-Status
+1-23000.00-12-motif-ACCEPT
+2-81000.00-18-motif-ENCOURS
