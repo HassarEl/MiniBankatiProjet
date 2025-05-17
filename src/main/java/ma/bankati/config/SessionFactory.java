@@ -58,11 +58,7 @@ public class SessionFactory
         return instance;
     }
 
+    // public static void main(String[] args) {SessionFactory.getInstance();}
 
-    /*
-    public static void main(String[] args) {
 
-        SessionFactory.getInstance();
-    }
-    */
 }
