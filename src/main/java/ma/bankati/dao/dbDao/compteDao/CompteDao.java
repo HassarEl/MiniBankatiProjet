@@ -94,11 +94,21 @@ public class CompteDao implements IComptDao {
 
     @Override
     public void delete(Compte element) {
-        
+        try{
+            var sql = "DELETE FROM compte WHERE id_compte = ?";
+            PreparedStatement ps = session.prepareStatement(sql);
+            ps.setLong(1, element.getId());
+            var status = ps.executeUpdate();
+            if(status == 0){
+                System.err.println("Compte delete failed");
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void deleteById(Long identity) {
-
+        delete(findById(identity));
     }
 }
