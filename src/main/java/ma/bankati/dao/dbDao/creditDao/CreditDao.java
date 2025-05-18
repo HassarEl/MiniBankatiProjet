@@ -62,21 +62,60 @@ public class CreditDao implements ICreditDao {
 
     @Override
     public Credit save(Credit newElement) {
-        return null;
+        try{
+            var sql = "INSERT INTO credit (mt_credit, nbr_mois, motif, status) VALUES (?,?,?,?)";
+            PreparedStatement ps = session.prepareStatement(sql);
+            ps.setDouble(1, newElement.mtCredit);
+            ps.setLong(2, newElement.nbrMois);
+            ps.setString(3, newElement.motif);
+            ps.setString(4, newElement.getStatus().toString());
+            var status = ps.executeUpdate();
+
+            if(status == 0){
+                System.err.println("Credit insert failed!!");
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return newElement;
     }
 
     @Override
     public void delete(Credit element) {
-
+        try{
+            var sql = "DELETE FROM credit WHERE id_credit = ?";
+            PreparedStatement ps = session.prepareStatement(sql);
+            ps.setLong(1, element.getId());
+            var status = ps.executeUpdate();
+             if(status == 0){
+                 System.err.println("Credit delete failed!!");
+             }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void deleteById(Long identity) {
-
+        delete(findById(identity));
     }
 
     @Override
     public void update(Credit newValuesElement) {
-
+        try{
+            var sql = "update credit set mt_credit = ? , nbr_mois = ? , motif = ?, status = ? where id_credit = ?";
+            PreparedStatement ps = session.prepareStatement(sql);
+            ps.setDouble(1, newValuesElement.mtCredit);
+            ps.setLong(2, newValuesElement.nbrMois);
+            ps.setString(3, newValuesElement.motif);
+            ps.setString(4, newValuesElement.getStatus().toString());
+            ps.setLong(5, newValuesElement.getId());
+            var status = ps.executeUpdate();
+            if(status == 0){
+                System.err.println("Credit update failed!!");
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 }
