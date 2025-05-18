@@ -99,12 +99,22 @@ public class UserDao implements IUserDao {
 
     @Override
     public void delete(User element) {
-
+        try{
+            var sql = "DELETE FROM users WHERE Id = ?";
+            PreparedStatement ps = session.prepareStatement(sql);
+            ps.setLong(1, element.getId());
+            var status = ps.executeUpdate();
+            if(status == 0) {
+                System.err.println("no User line added : delete failed!!");
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void deleteById(Long identity) {
-
+        delete(findById(identity));
     }
 
     @Override
