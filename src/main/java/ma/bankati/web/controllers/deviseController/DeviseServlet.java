@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import ma.bankati.dao.creditDao.CreditDao;
 import ma.bankati.dao.dataDao.fileDb.DataDao;
 import ma.bankati.service.moneyServices.IMoneyService;
 import ma.bankati.service.moneyServices.serviceDirham.ServiceDh;
@@ -19,13 +20,13 @@ public class DeviseServlet extends HttpServlet {
 
     private IMoneyService service;
     private DeviseController deviseController;
-    private DataDao dao;
+    private CreditDao dao;
 
     @Override
     public void init() throws ServletException {
         service = (IMoneyService) getServletContext().getAttribute("moneyService");
         deviseController = new DeviseController(service);
-        dao = new DataDao();
+        dao = new CreditDao();
         System.out.println("DeviseServlet init");
     }
 

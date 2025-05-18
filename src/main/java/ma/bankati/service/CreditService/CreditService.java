@@ -1,7 +1,7 @@
 package ma.bankati.service.CreditService;
 
-import ma.bankati.dao.creditDao.CreditDao;
 import ma.bankati.dao.creditDao.ICreditDao;
+import ma.bankati.dao.dbDao.creditDao.CreditDao;
 import ma.bankati.model.Crediit.Credit;
 
 public class CreditService implements ICreditService {

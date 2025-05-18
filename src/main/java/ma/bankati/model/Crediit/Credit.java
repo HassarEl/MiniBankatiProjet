@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Data @NoArgsConstructor @Builder
 public class Credit {
 
@@ -14,6 +17,7 @@ public class Credit {
     public Long nbrMois;
     public String motif;
     public Status status;
+
 
 
     public Credit(Long id, Double mtCredit, Long nbrMois, String motif, Status status) {

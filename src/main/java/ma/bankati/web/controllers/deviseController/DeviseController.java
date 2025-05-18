@@ -4,6 +4,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ma.bankati.dao.dataDao.fileDb.DataDao;
+import ma.bankati.dao.dbDao.compteDao.CompteDao;
 import ma.bankati.service.moneyServices.IMoneyService;
 import ma.bankati.service.moneyServices.serviceDirham.ServiceDh;
 import ma.bankati.service.moneyServices.serviceDollar.ServiceUSDollar;
@@ -15,7 +16,7 @@ import java.io.IOException;
 public class DeviseController {
     private IMoneyService service ;
     private IMoneyService serviceDh;
-    private DataDao dao = new DataDao();
+    private CompteDao dao = new CompteDao();
 
     public DeviseController(IMoneyService service) {
         this.service = service;

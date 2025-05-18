@@ -27,7 +27,7 @@ public class CreditDao implements ICreditDao {
         var nbrMois = rs.getLong("nbr_mois");
         var motif = rs.getString("motif");
         var status = Status.valueOf( rs.getString("status"));
-        var created = rs.getTimestamp("created");
+        var created_at = rs.getTimestamp("created_at").toLocalDateTime();
 
         Credit credit = new Credit(id, mt_credit, nbrMois, motif, status);
 

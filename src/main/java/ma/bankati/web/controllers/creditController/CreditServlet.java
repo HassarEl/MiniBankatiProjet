@@ -6,7 +6,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import ma.bankati.dao.creditDao.CreditDao;
+// import ma.bankati.dao.creditDao.CreditDao;
+import ma.bankati.dao.dbDao.creditDao.CreditDao;
 import ma.bankati.model.Crediit.Credit;
 
 import java.io.IOException;
