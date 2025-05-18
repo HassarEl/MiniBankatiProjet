@@ -6,21 +6,21 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data @AllArgsConstructor @NoArgsConstructor @Builder
+@Data @NoArgsConstructor @Builder
 public class Credit {
 
     public Long id;
-    public double mtCredit;
+    public Double mtCredit;
     public Long nbrMois;
     public String motif;
     public Status status;
 
 
-    public Credit(Long id, Double mtCredit, Long nbrMois, String motif, String status) {
+    public Credit(Long id, Double mtCredit, Long nbrMois, String motif, Status status) {
         this.id = id;
         this.mtCredit = mtCredit;
         this.nbrMois = nbrMois;
         this.motif = motif;
-        this.status = Status.valueOf(status);
+        this.status = Status.valueOf(status.name());
     }
 }
