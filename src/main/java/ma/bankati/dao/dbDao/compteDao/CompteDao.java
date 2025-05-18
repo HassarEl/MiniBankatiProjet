@@ -75,19 +75,30 @@ public class CompteDao implements IComptDao {
         }
         return newElement;
     }
+    
+    @Override
+    public void update(Compte newValuesElement) {
+        try{
+            var sql = "UPDATE compte SET solde = ? WHERE id_compte = ?";
+            PreparedStatement ps = session.prepareStatement(sql);
+            ps.setString(1, newValuesElement.getSolde());
+            ps.setLong(2, newValuesElement.getId());
+            var status = ps.executeUpdate();
+            if(status == 0){
+                System.err.println("Compte update failed");
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void delete(Compte element) {
-
+        
     }
 
     @Override
     public void deleteById(Long identity) {
-
-    }
-
-    @Override
-    public void update(Compte newValuesElement) {
 
     }
 }
