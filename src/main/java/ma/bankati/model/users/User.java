@@ -14,7 +14,7 @@ public class User {
     private String lastName;
     private String username;
     private String password;
-    private ERole  role;
+    private ERole role;
     private LocalDate creationDate = LocalDate.now();
 
 

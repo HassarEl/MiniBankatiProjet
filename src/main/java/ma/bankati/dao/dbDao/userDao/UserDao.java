@@ -26,7 +26,7 @@ public class UserDao implements IUserDao {
 
     private Connection session;
 
-    public UserDao(Path path) {
+    public UserDao() {
         this.session = SessionFactory.getInstance().openSession();
     }
 
@@ -34,12 +34,29 @@ public class UserDao implements IUserDao {
     private User mapToUser(ResultSet resultSet) throws SQLException {
         var id = resultSet.getLong("Id");
         var firstName = resultSet.getString("FirstName");
-        var lastName  = resultSet.getString("LastName");
+        var lastName = resultSet.getString("LastName");
         var username = resultSet.getString("username");
         var password = resultSet.getString("password");
-        var role = ERole.valueOf(resultSet.getString("role"));
-        var dateCreation = resultSet.getDate("dateCreation").toLocalDate();
-        return new User(id, firstName, lastName, username, password, role, dateCreation);
+
+        String roleStr = resultSet.getString("role");
+        ERole role;
+        try {
+            role = ERole.valueOf(roleStr.toUpperCase());
+        } catch (Exception e) {
+            role = ERole.CLIENT; // Default role if parsing fails
+        }
+
+        LocalDate creationDate = null;
+        try {
+            Date date = resultSet.getDate("created_at");
+            if (date != null) {
+                creationDate = ((java.sql.Date) date).toLocalDate();
+            }
+        } catch (SQLException e) {
+            creationDate = LocalDate.now();
+        }
+
+        return new User(id, firstName, lastName, username, password, role, creationDate);
     }
 
 
@@ -120,15 +137,15 @@ public class UserDao implements IUserDao {
     @Override
     public void update(User newValuesElement) {
         try{
-            var sql = "UPDATE users set firstName = ?, lastName = ?, username = ?, password = ?, role = ?, created_at = ? WHERE Id = ?";
+            var sql = "UPDATE users set firstName = ?, lastName = ?, username = ?, password = ?, role = ? WHERE Id = ?";
             PreparedStatement ps = session.prepareStatement(sql);
             ps.setString(1, newValuesElement.getFirstName());
             ps.setString(2, newValuesElement.getLastName());
             ps.setString(3, newValuesElement.getUsername());
             ps.setString(4, newValuesElement.getPassword());
             ps.setString(5, newValuesElement.getRole().toString());
-            ps.setDate(6, java.sql.Date.valueOf(newValuesElement.getCreationDate()));
-            ps.setLong(7, newValuesElement.getId());
+            // ps.setDat(6, java.sql.Date.valueOf(newValuesElement.getCreationDate()));
+            ps.setLong(6, newValuesElement.getId());
             var status = ps.executeUpdate();
             if(status == 0) {
                 System.err.println("no User line added : update failed!!");
