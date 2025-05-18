@@ -119,7 +119,23 @@ public class UserDao implements IUserDao {
 
     @Override
     public void update(User newValuesElement) {
-
+        try{
+            var sql = "UPDATE users set firstName = ?, lastName = ?, username = ?, password = ?, role = ?, created_at = ? WHERE Id = ?";
+            PreparedStatement ps = session.prepareStatement(sql);
+            ps.setString(1, newValuesElement.getFirstName());
+            ps.setString(2, newValuesElement.getLastName());
+            ps.setString(3, newValuesElement.getUsername());
+            ps.setString(4, newValuesElement.getPassword());
+            ps.setString(5, newValuesElement.getRole().toString());
+            ps.setDate(6, java.sql.Date.valueOf(newValuesElement.getCreationDate()));
+            ps.setLong(7, newValuesElement.getId());
+            var status = ps.executeUpdate();
+            if(status == 0) {
+                System.err.println("no User line added : update failed!!");
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
