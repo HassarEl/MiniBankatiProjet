@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+
 public class UserDao implements IUserDao {
 
     private Connection session;
@@ -69,7 +70,31 @@ public class UserDao implements IUserDao {
 
     @Override
     public User save(User newElement) {
-        return null;
+        try {
+            var sql = "INSERT INTO users(FirstName, LastName, username, password, role, created_at) values(?,?,?,?,?,?)";
+            PreparedStatement ps = session.prepareStatement(sql);
+            ps.setString(1, newElement.getFirstName());
+            ps.setString(2, newElement.getLastName());
+            ps.setString(3, newElement.getUsername());
+            ps.setString(4, newElement.getPassword());
+            ps.setString(5, newElement.getRole().toString());
+            ps.setDate(6, java.sql.Date.valueOf(newElement.getCreationDate()));
+
+            var status = ps.executeUpdate();
+            if(status == 0) {
+                System.err.println("no User line added : insert failed!!");
+            }else{
+                var rs = ps.getGeneratedKeys();
+                if(rs.next()) {
+                    var id = rs.getLong(1);
+                    newElement.setId(id);
+                    System.out.println("user " + id + " added successfully");
+                }
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return newElement;
     }
 
     @Override
