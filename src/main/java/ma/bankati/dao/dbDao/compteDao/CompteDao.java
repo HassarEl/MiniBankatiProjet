@@ -2,6 +2,7 @@ package ma.bankati.dao.dbDao.compteDao;
 
 import ma.bankati.config.SessionFactory;
 import ma.bankati.dao.creditDao.ICreditDao;
+import ma.bankati.dao.dataDao.IDao;
 import ma.bankati.dao.dataDao.fileDb.IComptDao;
 import ma.bankati.model.compte.Compte;
 
@@ -12,7 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CompteDao implements IComptDao {
+public class CompteDao implements IComptDao, IDao {
 
     private Connection session;
     public CompteDao() {
@@ -110,5 +111,22 @@ public class CompteDao implements IComptDao {
     @Override
     public void deleteById(Long identity) {
         delete(findById(identity));
+    }
+
+    @Override
+    public double fetchData() {
+        double total = 0;
+        try {
+            var sql = "SELECT * FROM compte where id_compte = 1";
+            PreparedStatement ps = session.prepareStatement(sql);
+            var rs = ps.executeQuery();
+
+            if (rs.next()) {
+                total =  rs.getDouble("solde");
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return total;
     }
 }

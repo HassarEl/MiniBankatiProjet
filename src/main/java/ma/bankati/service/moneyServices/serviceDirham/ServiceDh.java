@@ -9,7 +9,7 @@ import ma.bankati.service.moneyServices.IMoneyService;
 
 
 @Getter @Setter
-public class ServiceDh   implements IMoneyService {
+public class ServiceDh implements IMoneyService {
 
    private IDao dao;
 
