@@ -140,7 +140,10 @@ public class UserDao implements IUserDao {
 
     @Override
     public Optional<User> findByLoginAndPassword(String login, String password) {
-        return Optional.empty();
+        return findAll()
+                .stream()
+                .filter(user -> login.equals(user.getUsername()) && password.equals(user.getPassword()))
+                .findFirst();
     }
 
 }
