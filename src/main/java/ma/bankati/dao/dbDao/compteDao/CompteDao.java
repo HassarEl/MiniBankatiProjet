@@ -46,13 +46,34 @@ public class CompteDao implements IComptDao {
 
     @Override
     public Compte findById(Long identity) {
-        return null;
+        return findAll().stream()
+                .filter(compte -> compte.getId() == identity)
+                .findFirst().orElse(null);
     }
 
 
     @Override
     public Compte save(Compte newElement) {
-        return null;
+        try{
+            var sql = "INSERT INTO compte (solde) VALUES (?)";
+            PreparedStatement ps = session.prepareStatement(sql);
+            ps.setString(1, newElement.getSolde());
+            var status = ps.executeUpdate();
+            if(status == 0){
+                System.err.println("Compte save failed");
+
+            }else{
+                var rs = ps.getGeneratedKeys();
+                if (rs.next()) {
+                    var id = rs.getLong(1);
+                    newElement.setId(id);
+                    System.out.println("Compte : " + id + "added seccessfully");
+                }
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return newElement;
     }
 
     @Override
